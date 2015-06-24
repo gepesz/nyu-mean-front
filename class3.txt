@@ -1,0 +1,76 @@
+CLASS #3
+
+files: mean-session3-master
+
+1. Intro
+- using Angular, you don't use the traditional DOM events (eg: onload(), onclick(), etc)
+- Anguler gives you the jQuery stuff + much more
+- .scss is easier to read than .css
+- good technique to have app.js contain your behavior:
+
+$(function() {
+	$(".menus h3").on("click", function(e) {
+		console.log("hi");
+		$(this).next("ul").toggleClass("open");
+		return false;
+	});
+});
+
+
+2. jQuery
+- next("tag"): give me the next element (of optional tag type specified)
+- toggleClass("className"): add or remove one or more classes
+- $(".drawer ul:first").show(): give me the first "ul" only
+- $(".drawer ul").slideUp("slow"): you can animate to slide things in or out for certain seconds
+
+
+
+3. CSS
+- * {margin: 0; padding: 0;}: poor man's way of removing all margins & paddings
+- font: 100%     => means make the font size exactly the same as it is now, by default 16px
+- font: 100%/1.6 => means line spacing is about 16px * 1.6 = 22px
+- .drawer-handle + ul => means sibling selector => find .drawer-handle class then give me the next ul (not inside it)
+- body should use font size 100%, elsewhere you should use em-s and rem-s
+- @media screen and (min-width: 760px) { => this is how you setup a media query for screen only where we have more than 760px width
+- put the LARGE SCREEN design into the media queries, not the other way around!
+	=> the mobile view is what you define with percentages and ems
+	=> this is what it means mobile first design
+
+- box-sizing: border-box; => means the border (the box model) behavior changes:
+	=> instead of being additive, now the border and other box items are inside, contained in the box
+	=> so you can mix percentages and px settings just fine
+	=> this is how Netscape used to work, called QUIRKS mode
+	=> then W3C changed this to another setting
+	=> so these days all modern websites add this back
+
+
+4. Issues with jQuery
+- SPA = single page application (eg: gmail.com)
+- with the rise of SPAs, if you have say 20 buttons, the management of items on the single page becomes very messy
+- so your jQuery becomes messy
+- Angular was implemented to help you manage this so it becomes simple
+- best way to learn about Angular is to look for the jQuery equivalent of the Angular stuff you're looking at
+
+
+5. Angular
+- Angular contains a large chunk of jQuery
+- it's more modular than jQuery as it assumes you don't need each part all the time
+- so you can just include whatever you need
+- the modules have .map files, which map from a minimized file to a non-minimized file
+- allows any portion of your page to be 'angularized' (so it's not an all or nothing approach!)
+	=> you simply add 'ng-app' to the section you want angularized
+	=> add 'ng-app' to html tag for the entire page to be angularized
+- {{ ... }} => 'moustaches': how you add expressions
+- with angular, you build stuff right into the html with stuff like ng-init="..."
+- {{ messageText | uppercase }}: means pipe this thru uppercase routine
+- ng-model: is the big, important tag:
+	=> it binds the variable and the input both ways immediately, keeping things in synch
+	=> when you bind this to a database, changing the database immediately changes the view
+- docs.angularjs.org/tutorial
+	=> PhoneCat is a good place to start
+	=> filtering, etc are all here
+- the ng-model data binding is truly what Angular brings to the party
+	=> it's very hard to rewrite this ourselves using any other library
+	=> 
+
+

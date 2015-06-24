@@ -1,0 +1,52 @@
+CLASS #4
+
+files: mean-session4
+
+1. Intro
+- good article: Bloomberg article: Paul Ford - What Is Code
+- common issue is that you have the same variable in the global js namespace overwriting each other
+- to avoid this, we need to use namespaces:
+	=> var stevesApp = {};
+	   stevesApp.person = "Steve";
+- CodeKit: similar to Koala, but a better version of it (tho it costs $32)
+	=> but does a lot more, eg: minimize JS as you go
+	=> flag any JS issues by running js-lint on save
+	=> you can preview your page on any mobile device
+	=> same .scss preprocessing as Koala
+- in order for a page to be responsive, you MUST INCLUDE the responsive meta tag
+	=> <meta name="viewport" content="width=device-width">
+	=> originally developed by Apple when they wanted app developers to only develop html apps
+	=> all of your .html pages must include this meta tag to be responsive!
+- in Bootstrap, the magic number is 12 (things always add up to 12)
+
+
+2. Angular directives
+- ng-init: generally don't use it, after version 1.3.0 you start seeing errors if using it
+- ng-repeat: 
+	=> by convention, you name the collection plural, eg: portfoliods
+	=> by convention, you name the single element the same, eg: portfolio in portfolios
+	=> you can run the ng-repeat thru filters & even more than one filter, example:
+	<li ng-repeat="portfolio in portfolios | filter:searchFor | orderBy:'date'">{{ portfolio }}</li>
+- you can use the regular JS methods, not just the json keys or Angular routines:
+	=> {{ portfolios.length }} is simply the .length method on an Array
+- ng-class:
+	=> this is how you manipulate the class names that Angular injects into our page
+- {{ $index }}: the database (or other) index of the thing we are repeating
+- to simply dump what i have available for a single object:
+	=> 	<li ng-repeat="(key, value) in portfolio">
+			<strong>{{ key }}</strong> - {{ value }}
+		</li>
+- ng-src:
+	=> use this instead of src in the <img> tag when you want to use an {{ expression }} in the src
+	=> this is because there is a timing issue between when the browser loads the page & angular
+	   loads in the image
+	=> so use ng-src with images & expressions
+
+
+3. Tips
+- it's good to have a top right corner that shows you which break-point you are on currently:
+	=> look at site/index.html: $(document).ready(function() is where the magic happens
+
+
+
+

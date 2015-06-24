@@ -1,0 +1,65 @@
+CLASS #2
+
+daniel.deverell@gmail.com
+daniel.deverell.com/css-files/mean.pdf
+
+1. Github basics 
+- github: https://github.com/NYU-frontend/mean-session2.git
+- README.md: the .md stands for mark down
+- you can add multiple remote origins to a project
+- GitUp: visual tool to see how a repo is changing
+
+2. Design considerations
+- mobile first = design concept that says you have a very small real estate space
+- responsive   = another design concept that says you need to design for both mobile & web
+- you cannot ever use fixed sizes for anything
+- similarly, it's old school to use resolution dependent images, you use proper css for
+  high resolution things
+- user agent css = the css built into the browser
+- sprite = an image that contains the hover/other version of the same image
+- usually spites contain many small images
+- the inspector shows the css files from most to least importance
+
+3. Breakpoints
+- breakpoints: this is how you design pages for resizing in mind
+- a good design technique is to name your breakpoints as one, two, three:
+	=> @break.one: 320px
+	=> @break.two: 400px
+	=> @break.three: 720px
+
+4. Pseudo selectors
+- pseudo selector: selects the state of something that doesn't exist
+- eg: h3:before {  <= means what to do before the h3 element
+	...
+}
+- you also have an :after pseudo
+- you can show/hide things, etc
+
+5. HTML basics
+- tag = element, eg: div, h1
+- attribute = property, eg: href
+- there are 3 pillars to any page:
+	a) CONTENT 				= HTML
+	b) DESIGN/PRESENTATION 	= CSS
+	c) BEHAVIOR 			= JAVASCRIPT
+- <a href="img/pagoda.jpg" title="Pagoda in the forest"
+	onclick="showPicOne(this); return false;">Pagoda</a>:
+	=> here 'this' refers to the entire href tag
+	=> you can print it out via console.log(whichPic);
+	=> in showPicOne(), you must return false; otherwise
+	   the event will bubble up & the browser will goto the image
+- html ids are too powerful, used for programming (behavior) purposes
+- when designing a page/ui, use only css classes
+- most used DOM JavaScript routines:
+	=> document.getElementById()
+	=> element.getElementsByTagName()
+	=> element.getAttribute()
+	=> element.setAttribute()
+
+6. jQuery
+- api.jquery.com
+- very powerful search functionality
+
+
+
+
