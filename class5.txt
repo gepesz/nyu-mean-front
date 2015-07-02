@@ -1,0 +1,99 @@
+CLASS #5
+
+files: mean-session5
+
+1. Intro
+- Angular was created for SPAs:
+	=> users will always see just a single .html file!
+	=> different controllers act on different parts of the page to do things
+- put ng-repeat into the outermost object that you want to repeat
+- to style the first or last child of something: use css:
+	=> .content:first-child { ... }
+	=> .content:last-child { ... }
+- use the sass Bootstrap file for the Midterm & Final
+- have a small dataset (eg: 5 cactuses), use Angular to present it
+- tip: use the '|' character to indicate: this gotta get done!
+- tip: you can edit the .css in the Inspector to get things working!
+	=> you can also enable/disable certain css properties while debugging
+
+
+2. JSON objects
+- tip: jsonlint.com: use this to validate your JSON objects:
+	=> everything has to be quoted: "key": "value"
+- $.getJSON(url, function(data) { ... }):
+	=> this is how you can read an external file using jQuery
+- cross origin requests: this is a security issue trying to load a local file:
+	=> gotta go thru the web server: http://localhost:9003/...
+- use double quotation in JSON to avoid escaping single quotes:
+	=> will just work
+
+
+3. MVC
+- view       = what you see in the browser
+- model      = business logic, the database basically
+- controller = what we are diving into
+- view must be able to communicate back and forth with the controller
+- ng-controller:
+	=> links a function (controller function) to an area on the HTML
+	=> $scope:
+		* it is a variable
+		* also called an injection (or dependency)
+		* links the view and the controller together
+		* you just append portfolios to $scope: $scope.portfolios = [{...}]
+- this would work in Angular v1.2 or less, but broken in v1.3 and higher
+- Angular code changes quickly
+
+
+4. Controllers
+- ng-app="myApp"  <==  we MUST put this into the block where we want to use our app!
+- assigning controllers:
+
+var myApp = angular.module('myApp', []);
+
+myApp.controller('mainController', function($scope) {
+    
+    $scope.name = 'Jane Doe';
+    $scope.occupation = 'Coder';
+    
+    $scope.getname = function() {
+        return 'John Doe';
+    }
+    
+    console.log($scope);
+    
+});
+
+- by convention, the variable name is the same as the string you pass to angular.module()
+- then, you assign a controller to your module via the controller() function:
+	=> has a name, and a callback w/ $scope that we want to pass to the view
+- so an app (a module) is really just a bunch of controllers
+- tip: use underscore when naming models, eg: ng-model="adding_portfolio.description"
+- ng-click:
+	=> reference to a function
+	=> this function lives in the controller: $scope.addPortfolio = function(data) { ... }
+
+
+5. Homework
+- re-create what we did today on the Pirate page
+- create js/app.js:
+	=> create an app in there, add a controller
+	=> re-create what we've done in class
+- use your own .sass instead of Bootstrap:
+	=> try to use the 3 column format
+	=> so instead of showing the images top to bottom, show 3 in a row
+- try something like this in the css (w/o setting the actual px):
+
+.portfolio-item {
+	width: 30%;
+	float: left;
+	margin-left: 1%;
+	min-height: 320px;
+}
+
+- but instead we should set the width to 30% at one breakpoint, and 100% at another breakpoint
+
+
+
+
+
+
