@@ -1,0 +1,211 @@
+CLASS #6
+
+files: mean-session6/other/1 html5 forms/start.html
+
+1. Intro
+- diveintohtml5.info: good, quick, nice overview of HTML5
+- tip: always clear the Console first!! (it keeps the old errors)
+- use Angular version 1.x, not 2.x (too fresh)
+
+
+2. HTML5
+- pre-HTML5: you need to set 'type="text"' in an INPUT tag
+	=> this is now old-school and "text" is the default value
+- HTML5 added the 'placeholder' attribute to INPUT elements
+	=> this is where you pre-populate the input field w/ grey text
+- "required": another great HTML5 addition that's built into HTML5
+	=> you can say 'required="true"' or just simply 'required' (preferred)
+	=> also can apply to textarea
+- these 2 pretty much should be added for every input element
+- but in addition, HTML5 introduced new INPUT types:
+	=> type="email":  this is really relevant on mobile, where the keyboard brought up will be the email keyboard!
+	=> type="url":    similar to the "email" type: this brings up a URL keyboard on mobile
+	=> type="number": with this type I can specify even more attributes:
+		* min:  minimum value
+		* max:  maximum value
+		* step: the step size
+	=> type="range":  similar to number, but this renders a slider:
+		* min:  minimum value
+		* max:  maximum value
+		* step: the step size
+	=> type="date":   renders a 'mm/dd/yyyy' date field, where I can tab between the parts
+		* also has a built-in pop-up calendar
+		* doesn't work in all browers (so we can't rely on it fully)
+- forms & ols & uls always have padding in them, set padding: 0; to remove them
+- *:focus: { 	<== this is how you set the property of the input element currently in focus
+	outline: 
+}
+
+	input:focus, textarea:focus {
+		box-shadow: 0 0 20px #ccc;	<== nice light grey border
+		transform: scale(1.05);		<== pops out the in focus input field
+	}
+
+	input:not(:focus), textarea:not(:focus) {
+		opacity: 0.5;				<== fields not in focus		
+	}
+
+- outline property is what you want to manipulate for focus, not 'border'!
+- default font-size is still 16px on every browser by default
+- the trend in fronts is to stack the labels on top of the input fields, due to mobile first:
+	Name
+	[input field]
+	Email
+	[input field]
+	Website
+	[input field]
+
+	=> since INPUT fields are inline, you have to set display: inline-block; on both INPUT & TEXTAREA
+
+- transform:  transforms a given DOM element (eg: scales it up, rotates, etc)
+- transition: tells the input field to bring in the focus state slowly:
+	=> transition: all 0.5s ease-in-out;	<== means show the 'transform' mode slowly, after 0.5 seconds!
+
+- in addition to :focus, with HTML5 we have :required now:
+	=> this is how you can style required fields!
+	=> no need to add * or any other stuff on the HTML page itself
+	=> input:required, textarea:required {
+			background: #fff url(asterisk_orange.png) no-repeat 280px 6px;	<== put the asterisk image right on top of the input field!
+	   }
+- another thing is the :valid state:
+	=> what to do with the input field when it passes validation, eg:
+		input:valid, textarea:valid {
+			background: #fff url(tick.png) no-repeat 280px 6px;		
+		}
+- and of curse there is the :invalid state as well:
+	=> the problem is that this is shown on wakeup (overwrites the :required state)
+	=> input:invalid, textarea:invalid {
+			background: #fff url(cancel.png) no-repeat 280px 6px;		
+	   }
+	=> a field is in INVALID state until it's VALID (it's either/or)
+	=> so the form does wake-up in invalid state
+	=> better to use the :required state instead
+
+- input[type="submit"] { ... }: this is how I can select a certain type of a field
+	=> element[attribute="value"] is the standard form to style what I want
+- you can also style the 'placeholder':
+	::-webkit-input-placeholder {
+		color: blue;
+	}
+- add 'autofocus' as an attribute into the first INPUT field (to have it automatically focused on page load)
+- you can also chain states together, eg:
+	input:focus:invalid, textarea:focus:invalid {
+		background: #fff url(cancel.png) no-repeat 280px 6px;		
+	}
+	=> this is how you should use the :invalid state!
+
+- how to set autocorrection to off:
+	=> autocorrect="off"
+- similarly you can disable auto capitalization:
+	=> autocapitalize="off"
+
+- novalidate: you can turn off validation altogether for a form with this attribute:
+	=> 	<form name="" action="" novalidate> 
+
+
+3. Modernizr
+- it's a feature detection utility
+- based on what browser you are on, it creates different things
+- so for example, it brings in a bunch of html classes (eg: 'no-touch', 'rgba', etc)
+- the old-school way was browser sniffing:
+	=> this is how you got things done for different browsers
+- with feature detection, you do the opposite: check what is available to me on the given browser
+- so how can I detect if something is supported:
+	<script type="text/javascript">
+		if (!Modernizr.touch) {
+			console.log("no touch");
+		}
+		if (!Modernizr.inputtypes.date) {
+			console.log("no date");
+		}
+	</script>
+- Modernizr adds 2 things to a page:
+	=> Modernizr javascript object (where I can query supported & unsupported features in JS):
+		if (!Modernizr.touch) {
+			// I am on a device that supports touch
+		}
+	=> inserts a bunch of classes onto the html tag:
+			* <html class=" js flexbox opacity ..."
+			* this is so that I can add conditional CSS:
+				form { /* general form style */ }	<== every browser should style forms like this
+				.opacity form { /* this is where I add opacity to my forms for those browers that support it! */ }
+				^^^ this is progressive enhancement: browsers that support opacity should add additional styling to the form!
+
+- so using Modernizr you can take advantage of modern technologies while still supporting old ones
+- typically you don't need the entire Modernizr, but rather a small version of it
+- these days people write their own Modernizr's, for example: The Guardian
+- theguardian.com:
+	=> github.com/guardian/frontend: the entire frontend is up on github!
+	=> many ppl use it as the golden benchmark to compare themselves to
+- nytimes.com:
+	=> a lot larger nof classes on the HTML element
+- what people really use Modernizr for is managing the local cache (data) that the site can use:
+	=> you can close the browser and re-open it in the same state!
+	=> so the website really becomes like a desktop application then
+
+
+4. Philosophies
+- progressive enhancement: means you can use what the browser supports today, using feature detection
+- regressive enhancement: means the opposite: writing code to support an old browser (which everybody hates to do)
+- progressive enhancement is the way to go
+- graceful degredation: means to maintain a limited functionality even tho almost everything has already been deprecated
+	=> a simple way to deal with a total catastrophy
+	=> this is how you deal with very old browsers
+
+
+5. jQueryUI
+- jqueryui.com: set of UI animations/widgets/etc built on top of jQuery
+- for example, I can add the date picker to Safari using this
+
+
+6. Angular form validation
+	<form name="add_portfolio_form" action="" novalidate>
+		<p>Is this form valid? {{ add_portfolio_form.date.$valid }}</p>		<== simple true/false check
+		<p>Is this form invalid? {{ add_portfolio_form.date.$invalid }}</p>	<== simple true/false check
+		<p>Is this form errored? {{ add_portfolio_form.date.$error }}</p>	<== JSON object: state of each attribute set on the field
+
+		<input type="text" placeholder="yyyy/mm/dd" size="10" ng-model="adding_portfolio.date" ng-required="true" ng-minlength="10" name="date"/>
+
+	</form>
+- ng-required: the Angular equivalent of the 'required' attribute
+- ng-minlength: the Angular equivalent of 'minlength'
+- these ng-required, ng-minlength etc attributes build/remove css classes to/from the INPUT elements dynamically
+- just like Modernizr, Angular inserts a bunch of classes onto the form itself:
+	=> ng-pristine
+	=> ng-invalid
+	=> ng-invalid-required
+	=> tons more
+- in fact, each of these classes are added dynamically onto the INPUT fields as I type into them!
+- so both on the input fields & the entire form I keep track of my state via dynamic class names
+- this is how I can style them
+- ng-show: you can show or hide an element based on some state:
+	<div class="alert alert-danger" ng-show="add_portfolio_form.date.$invalid">
+		Date too short
+	</div>
+	=> ng-show is a very important feature
+- but we really want to run the validation on the entire form when the button is clicked
+	<div class="alert alert-danger" ng-show="add_portfolio_error">
+		{{ add_portfolio_error }}
+	</div>
+
+
+7. Homework
+- https://github.com/NYU-frontend/mean-session6, Assignment section
+- implement the 'Add a Portfolio' form on top of the pirate page
+- add validation, using Angular
+- use ng-disabled on the button
+- use a later version of Angular to get things working
+
+
+
+
+
+
+
+
+
+
+
+
+
+
