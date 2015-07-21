@@ -77,7 +77,7 @@ myApp.controller('mainController', function($scope) {
 - re-create what we did today on the Pirate page
 - create js/app.js:
 	=> create an app in there, add a controller
-	=> re-create what we've done in class
+	=> re-create what we've done in class in there
 - use your own .sass instead of Bootstrap:
 	=> try to use the 3 column format
 	=> so instead of showing the images top to bottom, show 3 in a row

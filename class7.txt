@@ -1,0 +1,140 @@
+CLASS #7
+
+files: mean-session7/angular/index.html (branch: mean-session7done)
+
+1. Intro
+- topics: tidying things up, review project, animation project in Angular
+- tip: use reveal js for presentation:
+	=> it's done via css, not js
+	=> you won't get the same speed using js
+	=> great example of css animations
+- tip: Play framework:
+	=> Java & Scala framework to build scalable web apps
+	=> need this to run Guardian github.com
+- tip: image srcset:
+	=> it leaves up to the device's browser to decide which image to show (small/medium/large)
+	=> https://css-tricks.com/responsive-images-youre-just-changing-resolutions-use-srcset/
+tip: imagemagick:
+	=> you can use free/open source tools like image magic to create different size images from a source image
+	=> http://www.imagemagick.org/script/index.php
+- tip: convention is to capitalize the Controller name in app.js
+- $scope is the glue between the controller and the view
+- in jQuery we always have to traverse/query the DOM to get to my element
+- $scope is so much easier because it simply binds an area (view) to a JS function:
+	=> and it's 2-way binding, meaning if the view changes the controller knows about it
+	=> jQuery is 1-way binding
+- difference btw ng-click vs ng-submit:
+	=> ng-click: have to click that button to submit the form
+	=> ng-submit: can hit Enter on any of the fields to submit the form
+- border vs outline:
+	=> border changes the elements width (unless you set the css property to border-box)
+	=> outline does NOT change the width of the element (which is why it's popular/better)
+
+
+2. Multiple controllers
+- mean.pdf, page 49
+- mean-session7/angular/index.html
+- if a {{ something }} can't evalute, Angular just leaves it empty
+- ng-include:
+	=> came from html include (when you can include a chunk of html in another html page)
+	=> this is the same thing but using the ng-include directive:
+		<div style="float:right" ng-include="'app/partials/user_partial.html'"></div>
+	=> helps you break up a large file (SPA) and break it up into multiple files
+- ng-binding:
+	=> how you bind something on the view to something on the controller
+
+
+3. Angular route
+- need to include a different js:
+	<script src="https://code.angularjs.org/1.4.2/angular.min.js"></script>
+	<script src="https://code.angularjs.org/1.4.2/angular-route.min.js"></script>
+- you need to add the route to the app:
+	var portfolioApp = angular.module('portfolioApp', ['ngRoute']);
+- now i can say what we want to show when the url becomes something
+	=> this is done via the .config() on the app
+	=> config() is like an if-else statement
+	=> what should happen if the URL is this or that
+	=> this is how I say what to show when
+
+	portfolioApp.config(function ($routeProvider) {
+    	$routeProvider
+ 			.when("/portfolios", {								<== with this url ...
+ 				controller: "PortfolioListController",			<== ... use this controller ...
+ 				templateUrl: "app/partials/portfolios.html"})	<== .. and thiw view!
+			.when("/", {
+				redirectTo: "/portfolios"})						<== what to do on wakeup
+ 			.otherwise({ 
+ 				redirectTo: "/404_page" });						<== this is the catch all (default case)
+			});
+- when I do this, I need to remove the ng-controller from the html:
+	=> it's now defined in app.config, not on the html!
+- tip: it's a good practice to separate out each Controller, and even put them into app/controllers folder
+- so Angular route is how you can break things up:
+	=> specify what url uses what view and which controller
+	=> we can remove the controller names from the html pages
+	=> we can write the middlelayer: what goes where
+
+
+4. Dynamic URLs
+- on the root html:
+    <a href="#/portfolio/{{portfolio.name}}">
+        <span class="title" ng-bind="portfolio.title"></span>
+    </a>
+- now I have to setup the routing in app.js for this:
+    .when("/portfolio/:portfolio_name", {
+        controller: "PortfolioViewController",
+        templateUrl: "app/partials/portfolio.html" })
+- on the controller:
+	portfolioApp.controller('PortfolioViewController', function( $scope, $routeParams ) {
+		$scope.portfolio_name = $routeParams.portfolio_name;
+	}
+	=> $routeParams is how you get access to what's in the route
+	=> $routeParams is how a controller can pass data to another
+	=> now I can use the $scope.portfolio_name in both the Controller & the view
+- to recap, for dynamic routing:
+	=> on the root.html, add the dynamic link (eg: href="#/portfolio/{{portfolio.name}}")
+	=> add routing to app.config() (with a new controller, eg: controller: "PortfolioViewController")
+	=> create that new controller file
+	=> include the new controller's .js file on index.html
+
+
+5. CSS animation
+- codrops: http://tympanus.net/codrops/
+	=> great website for CSS effects
+	=> esp strong on text input effects
+- page transitions: great way to showcase CSS animation effects
+- files: mean-session7/angular-structure
+- mean.pdf, page 66
+- on the controller, we are inserting a different pageClass for our views:
+	=> this is a neat technique to differentiate quickly driving from the back
+- now on the view I can do:
+	<div class="page {{ pageClass }}" ng-view></div>
+- angular-animate.js:
+	=> adds & removes classes to facilitate animation, as you enter & leave a page
+	=> see ngAnimate for full details
+	=> angular does a better job w/ css animations than jQuery
+- the classes that get added/removed via ngAnimate:
+	=> ng-leave, ng-leave-active: on the outside element
+	=> ng-enter, ng-enter-active: on the inside element
+	=> ng-animate: what actually happens
+- you can create and name your animation in css:
+	/* rotate out */
+	@keyframes rotateOutNewspaper {
+	    to { transform: translateZ(-3000px) rotateZ(360deg); opacity: 0; }
+	}
+	=> this means the name 'rotateOutNewspaper' now does that transform
+- now I can use this as an animation on another class:
+	.page-404.ng-leave      {
+	    transform-origin: 50% 50%;
+	    animation: rotateOutNewspaper .5s both ease-in;
+	}
+	=> see animation.css for details
+
+
+6. Homework
+- add a form into your Midterm with error handling (using validation, ng-show etc)
+	=> it doesn't have to actually save anything
+- add the routing piece into your Midterm
+- create the 404 page into your Midterm project
+- get to a point where we are with our current views
+- have a summary page & a details page (eg: portfolio of items)

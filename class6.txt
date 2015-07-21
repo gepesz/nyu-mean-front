@@ -33,7 +33,7 @@ files: mean-session6/other/1 html5 forms/start.html
 		* doesn't work in all browers (so we can't rely on it fully)
 - forms & ols & uls always have padding in them, set padding: 0; to remove them
 - *:focus: { 	<== this is how you set the property of the input element currently in focus
-	outline: 
+	outline: none;
 }
 
 	input:focus, textarea:focus {
@@ -46,6 +46,7 @@ files: mean-session6/other/1 html5 forms/start.html
 	}
 
 - outline property is what you want to manipulate for focus, not 'border'!
+	=> it's the stuff outside of border
 - default font-size is still 16px on every browser by default
 - the trend in fronts is to stack the labels on top of the input fields, due to mobile first:
 	Name
@@ -100,7 +101,8 @@ files: mean-session6/other/1 html5 forms/start.html
 	=> autocapitalize="off"
 
 - novalidate: you can turn off validation altogether for a form with this attribute:
-	=> 	<form name="" action="" novalidate> 
+	=> 	<form name="" action="" novalidate>
+	=> turns off the standard HTML5 validation and leaves it to us
 
 
 3. Modernizr
@@ -148,7 +150,7 @@ files: mean-session6/other/1 html5 forms/start.html
 - progressive enhancement: means you can use what the browser supports today, using feature detection
 - regressive enhancement: means the opposite: writing code to support an old browser (which everybody hates to do)
 - progressive enhancement is the way to go
-- graceful degredation: means to maintain a limited functionality even tho almost everything has already been deprecated
+- graceful degradation: means to maintain a limited functionality even tho almost everything has already been deprecated
 	=> a simple way to deal with a total catastrophy
 	=> this is how you deal with very old browsers
 
@@ -195,17 +197,3 @@ files: mean-session6/other/1 html5 forms/start.html
 - add validation, using Angular
 - use ng-disabled on the button
 - use a later version of Angular to get things working
-
-
-
-
-
-
-
-
-
-
-
-
-
-
