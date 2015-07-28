@@ -8,13 +8,13 @@ files: mean-session7/angular/index.html (branch: mean-session7done)
 	=> it's done via css, not js
 	=> you won't get the same speed using js
 	=> great example of css animations
+	=> need this to run Guardian github.com
 - tip: Play framework:
 	=> Java & Scala framework to build scalable web apps
-	=> need this to run Guardian github.com
 - tip: image srcset:
 	=> it leaves up to the device's browser to decide which image to show (small/medium/large)
 	=> https://css-tricks.com/responsive-images-youre-just-changing-resolutions-use-srcset/
-tip: imagemagick:
+- tip: imagemagick:
 	=> you can use free/open source tools like image magic to create different size images from a source image
 	=> http://www.imagemagick.org/script/index.php
 - tip: convention is to capitalize the Controller name in app.js
@@ -40,7 +40,7 @@ tip: imagemagick:
 	=> this is the same thing but using the ng-include directive:
 		<div style="float:right" ng-include="'app/partials/user_partial.html'"></div>
 	=> helps you break up a large file (SPA) and break it up into multiple files
-- ng-binding:
+- ng-bind:
 	=> how you bind something on the view to something on the controller
 
 
@@ -94,7 +94,7 @@ tip: imagemagick:
 - to recap, for dynamic routing:
 	=> on the root.html, add the dynamic link (eg: href="#/portfolio/{{portfolio.name}}")
 	=> add routing to app.config() (with a new controller, eg: controller: "PortfolioViewController")
-	=> create that new controller file
+	=> create that new controller .js file
 	=> include the new controller's .js file on index.html
 
 

@@ -1,0 +1,149 @@
+CLASS #8
+
+files: mean-session8/
+
+1. Intro
+- www.firebase.com:
+	=> it's a cloud database
+	=> implements data binding: as soon as you change the data, your application changes!
+	=> you don't even need to refresh your application
+	=> great for storing Angular data
+	=> very elegant, slick
+	=> create an account, take a look at the 5 min tutorial
+	=> was just bought up by Google
+- opacity vs display: none;
+	=> display: none; removes the element, so things move up!
+	=> opacity keeps the space of the element, so nothing moves around
+	=> in animations, always use opacity!
+	=> opacity is measured between [0..1]
+- because of mobile, one has to do a lot more animations than before
+	=> there are many frameworks for this, but CSS animations are the way to go again
+	=> especially Angular animations
+	=> motion is very important on the phone
+- animations are used when:
+	=> things enter the collection/DOM (appear)
+	=> things leave the collection/DOM (disappear)
+	=> things move around in the collection/DOM (move)
+
+
+2. Angular animation
+- a) mean-session8/2-angular-animation/1-simple-css-anim
+	=> very common technique: people usually do this on hover
+	=> these kind of animations usually don't work without vendor prefixes to some of the css
+	=> this is just a quick demo
+
+- b) mean-session8/2-angular-animation/2-angular-anim
+	=> simple animation from box to circle and vice versa
+	=> very common technique to use ng-class this way (with css transitions)
+	=> you should always use css animations
+	=> only use JS animations IF a specific browser doesn't allow css animation
+	
+	angular.module('myApp', []).controller('MainCtrl', function($scope) {
+    	$scope.boxClass = true;
+	});
+
+	.box {
+	    margin: 20px auto;
+	    background: #5fcf80;
+	    width: 150px;
+	    height: 150px;
+	}
+	.circle {
+	    transform: rotate(360deg);
+	    background: #9351a6;
+	    border-radius: 50%;
+	    margin: 20px auto;
+	    width: 150px;
+	    height: 150px;
+	}
+	.rotate {
+	    transition: all 2s linear;
+	}
+
+    <div ng-app="myApp" ng-controller="MainCtrl">
+        <input type="checkbox" ng-model="boxClass">
+        <div class="box rotate" ng-class="{'box': boxclass, 'circle': !boxClass}"></div>
+    </div>
+
+- c) mean-session8/2-angular-animation/3-angular-anim
+	=> simple example of removing items with animations
+	=> this one finally starts using Angular animations
+	=> ng-animate works on: items inside ng-repeat, and ng-view
+	   (meaning those are the DOM elements onto what the Angular classes will be added onto)
+	=> must include: <script src="https://code.angularjs.org/1.4.2/angular-animate.js"></script>
+
+    .fade { transition: all 2s linear; }
+    .fade.ng-enter { opacity: 0; }
+    .fade.ng-enter.ng-enter-active { opacity: 1; }
+    .fade.ng-leave { opacity: 1; }
+    .fade.ng-leave.ng-leave-active { opacity: 0; }
+
+    <li ng-repeat="item in items" class="fade">
+        {{ item.name }}
+        <span ng-click="removeItem($index)">X</span>
+    </li>
+
+- d) mean-session8/2-angular-animation/4-angular-css-anim
+	=> if you want to do animations, this is what you need to study
+	=> uses @keyframes, the real power of css animations
+	=> you can name @keyframes to whatever you want to
+	=> they have from {} and to {}
+	=> you can describe what should happen in the animation from..to
+	=> this is where the real power comes from, doing serious animations
+
+    .fade.ng-enter { animation: 2s appear; }
+    .fade.ng-leave { animation: 1s disappear; }
+    @keyframes appear {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+    @keyframes disappear {
+        from {
+            opacity: 1;
+        }
+        to {
+            opacity: 0;
+        }
+    }
+
+- e) mean-session8/2-angular-animation/4-angular-js-anim
+	=> pure JS animation
+	=> again, ONLY use this if the legacy browser does NOT support CSS animations
+	=> this is an example for JS animation on IE8
+	=> uses jQuery animations on enter(), leave() and move()
+
+
+3. Data visualization
+- mean-session8/3-data-visualization
+- paints a simple time dependent chart
+- because we are doing a CSS tranformation, the class 'y' needs to set its width!
+- self envoking function:
+    (function() {  <== you can use this instead of jQuery's DOM ready to run sthg on startup
+    	...
+    })();
+- this is the css for the 'y' class:
+	.y {
+	    position: absolute;
+	    transform: rotate(-90deg);
+	    transform-origin: bottom left;
+	    bottom: 0;
+	    padding: 5px;
+	    text-align: center;
+	}
+- you can easily make things responsive:
+	=> when you see a 'px', just multiply that by 100, and use '%' instead of 'px'
+- the standard css pseudo selector for making things odd/even:
+	.bar:nth-of-type(even) {
+	    background:red;
+	}
+
+
+4. Homework
+- a) finish up the bottomToTop(), add on animations to this
+- b) animate the drawing of the data visualization piece
+- c) fix the labels on the data visualization piece
+- use ng-leave, ng-enter (Angular animation)
