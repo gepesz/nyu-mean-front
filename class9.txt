@@ -1,0 +1,140 @@
+CLASS #9
+
+files: mean-session9/
+
+1. Intro
+- topics: Node, Grunt
+
+
+2. Node
+- example project: reveal.js:
+    => https://github.com/hakimel/reveal.js/
+- package.json: aka manifest of the project
+    => describes the package dependencies of the application
+- .gitignore: notice how node-modules/ is included in there
+    => meaning those will NOT be downloaded as part of the application
+    => literally there can be thousands of files in the node packages
+- npm install:
+    => installs everything that was in that manifest
+    => installs both prod & dev dependencies
+    => -g: instead of installing into ./node-module, install this package globally into /usr/local/bin/
+    => --save: save for prod & dev
+    => --save-dev: save for dev only
+- npm init:
+    => how you create an empty package.json file
+    => "scripts" contains a bunch of scripts that one can execute via 'npm SCRIPT_NAME'
+    => this is where you add 'python -m SimpleHTTPServer', or whatever is needed to start your app
+
+
+3. Grunt
+- there is a 'Gruntfile.js' on the top level
+- notice the capital 'G'
+- gruntInit():
+    => reads package.json first
+    => followed by a bunch of tasks with their parameters
+- sass task:
+    - this is how you compile .sass into .css
+- Koala is essentially a gui around grunt 'sass' task (and others)
+    => anything you can run in Koala you can also run it in Grunt
+- watch task:
+    => you can put tasks inside this
+    => this is where you save what to run on saves
+- Grunt has 4 areas in total:
+    => runt.initConfig(): individual tasks listed here first
+    => watch: the last task in initConfig
+    => series of dependencies    (eg: grunt.loadNpmTasks('grunt-contrib-sass');)
+    => registering tasks to run  (eg: grunt.registerTask('default', ['sass']);)
+- you always want to npm install --save-dev ALL Grunt stuff:
+    => Grunt is just a task runner, used only in development environment
+- running grunt
+    => you can run it with any number of arguments (task names)
+    => if you run 'grunt' without anything, it simply runs the default task
+- a good simple/advanced intro:
+    => https://24ways.org/2013/grunt-is-not-weird-and-hard/
+    => http://www.integralist.co.uk/posts/grunt-boilerplate.html
+
+
+4. Gruntfile.js
+- touch Gruntfile.js
+    module.exports = function(grunt) {
+        
+        // 1. All configuration goes here
+        grunt.initConfig({
+            pkg: grunt.file.readJSON('package.json'),
+            sass: {
+            // 2. Configuration for concatenating files goes here.
+            }
+        });
+
+        // 3. Where we tell Grunt we plan to use this plug-in.
+        grunt.loadNpmTasks('grunt-contrib-sass');
+
+        // 4. Where we tell Grunt what to do when we type "grunt" into the terminal.
+        grunt.registerTask('default', ['sass']);
+    };
+- sample Grunt task: grunt-contrib-sass:
+    => compile sass to css
+    => npm install grunt-contrib-sass --save-dev    <== in the app dir
+    => grunt.loadNpmTasks('grunt-contrib-sass');    <== copy into Gruntfile.js
+- so the Gruntfile.js becomes:
+    module.exports = function(grunt) {
+        grunt.initConfig({
+            pkg: grunt.file.readJSON('package.json'),
+            sass: {
+                dist: {
+                    options: {
+                        sourcemap: 'auto',
+                        style: 'expanded'
+                    },
+                    files: {
+                        'css/main.css': 'css/*.scss'
+                    }
+                }
+            }
+        });
+
+        grunt.loadNpmTasks('grunt-contrib-sass');
+        grunt.registerTask('default',['sass']);
+    };
+
+
+5. Watch
+- just another Grunt task:
+    => npm install grunt-contrib-watch --save-dev
+    => grunt.loadNpmTasks('grunt-contrib-watch');
+- this is how you say: watch these files, and when they change, run these tasks!
+- create another folder inside your app: 
+    watch: {
+        options: {
+            livereload: true,
+        },
+        css: {
+            files: ['css/**/*.scss'],
+            tasks: ['sass'],
+            options: {
+                spawn: false
+            }
+        }
+    }
+- and don't forget to add 'watch' to your default tasks:
+    => grunt.registerTask('default',['sass', 'watch']);
+    => running 'grunt' now: the 'watch' task will be waiting!
+    => eg: if I change main.scss, I get:
+        >> File "css/main.scss" changed.
+        Running "sass:dist" (sass) task
+
+
+6. Tips
+- bartender: http://www.macbartender.com/: if you have too many items in OS X bar
+- 
+
+
+
+
+
+
+
+
+
+
+
