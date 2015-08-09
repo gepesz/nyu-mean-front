@@ -50,8 +50,10 @@ files: mean-session9/
     => you can run it with any number of arguments (task names)
     => if you run 'grunt' without anything, it simply runs the default task
 - a good simple/advanced intro:
-    => https://24ways.org/2013/grunt-is-not-weird-and-hard/
-    => http://www.integralist.co.uk/posts/grunt-boilerplate.html
+    => [good]:     https://24ways.org/2013/grunt-is-not-weird-and-hard/
+    => [advanced]: http://www.integralist.co.uk/posts/grunt-boilerplate.html
+        * written by a very well respected front-end guy
+        * he's in charge of the entire bbc website
 
 
 4. Gruntfile.js
@@ -126,15 +128,26 @@ files: mean-session9/
 
 6. Tips
 - bartender: http://www.macbartender.com/: if you have too many items in OS X bar
-- 
+- get the .scss version of Bootstrap:
+    => highly modularized
+    => much easier to find colors, etc than the one .css
+    => any medium sized project can make edits to the .scss instead & recompile it
+- put ng-view inside a <main> tag:
+    => <main class="wrap" ng-view></main>
+    => better organized
+- Firebae & AngularFire are 2 separate projects
+    => they have separate .js files, both must be included
+- $firebaseArray is deprecated:
+    => but it's easy enough to learn with
+        var ref = new Firebase('https://vizapp.firebaseio.com/data');
+        $scope.graphData = $firebaseArray(ref);
+    => that's all you need
+- you can push data into Firebase (save data into FB) from within Angular itself:
+    => easiest way to push data into the cloud
+    => add this, refresh the page and the data is saved:
 
-
-
-
-
-
-
-
-
-
-
+    $scope.data = [ ... my data ... ];
+    var refTwo = new Firebase("https://scorchingtorch-2475.firebaseio.com/");   <== name of the FB app/collection
+    var postRef = refTwo.child('dataTwo');  <== name of the new collection
+    postRef.set($scope.data);               <== actually does the push into FB
+    
