@@ -29,7 +29,7 @@ files: mean-session9/
 3. Grunt
 - there is a 'Gruntfile.js' on the top level
 - notice the capital 'G'
-- gruntInit():
+- grunt.initConfig():
     => reads package.json first
     => followed by a bunch of tasks with their parameters
 - sass task:
@@ -38,7 +38,7 @@ files: mean-session9/
     => anything you can run in Koala you can also run it in Grunt
 - watch task:
     => you can put tasks inside this
-    => this is where you save what to run on saves
+    => this is where you say what to run on saves
 - Grunt has 4 areas in total:
     => runt.initConfig(): individual tasks listed here first
     => watch: the last task in initConfig
@@ -135,7 +135,7 @@ files: mean-session9/
 - put ng-view inside a <main> tag:
     => <main class="wrap" ng-view></main>
     => better organized
-- Firebae & AngularFire are 2 separate projects
+- Firebase & AngularFire are 2 separate projects
     => they have separate .js files, both must be included
 - $firebaseArray is deprecated:
     => but it's easy enough to learn with
@@ -146,7 +146,7 @@ files: mean-session9/
     => easiest way to push data into the cloud
     => add this, refresh the page and the data is saved:
 
-    $scope.data = [ ... my data ... ];
+    $scope.data = [ ... my data ... ];      <== assume you already have data hardcoded in app.js
     var refTwo = new Firebase("https://scorchingtorch-2475.firebaseio.com/");   <== name of the FB app/collection
     var postRef = refTwo.child('dataTwo');  <== name of the new collection
     postRef.set($scope.data);               <== actually does the push into FB

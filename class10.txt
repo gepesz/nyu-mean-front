@@ -1,0 +1,155 @@
+CLASS #10
+
+files: mean-session10-svg/  &  mean-session10/
+
+1. Intro
+- topics: Fonts, Icon fonts, SVG, Grunticon
+- mean-session10/ICONS:
+    => contains a .glyph
+    => contains .ai files
+
+
+2. Ai
+- Adobe Illustrator
+- tool to create icons/fonts
+- it's the Photoshop of the Mac world
+- in fact Ai is the new Photoshop
+    => most design firms are using Ai, not Photoshop
+- you can also save in .svg format
+    => .svg files are just Mathematical formulas
+    => whereas the .ai file is HUGE, the .svg is reall SMALL
+    => much better to use .svg in HTML
+- when I add layers and re-save my .svg:
+    => <g id="layerId"> get's added
+    => I can re-order my layers inside Ai, and it will be re-order then in the .svg as well
+
+
+3. Icon fonts
+- ICONS/specimen/pirate.html:
+    => specimen sheet for a new font called 'Pirate Font'
+- the content of each image is driven by this css piece:
+    span[data-icon]:before {
+        font-family: pirateregular;
+        content: attr(data-icon);
+        speak: none;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 64px;
+        display:block;
+        line-height: 64px; 
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+    => content is coming from the value of the attribute 'data-icon'
+    => the high Unicode numbers are coming from the 'private' area of the Unicode character set
+    => so essentially we are inserting high unicode characters defined in the custom fonts
+- these are icon fonts
+    => the browser considers it as regular text
+    => so you can style is with CSS
+    => specs are very old
+    => you can select it, etc
+    => you can throw a bunch of fonts into one container file
+    => better support than SVG
+- the other type of fonts is so-called SVG fonts
+    => crystal clear icons
+    => SVG is highly mathematical
+    => no universal support in browsers for them
+    => no CSS support
+- bottom line: depends on how much browser support do you want
+- http://css-tricks.com/icon-fonts-vs-svg/
+
+
+4. SVG
+- as per above, use Ai to create svgs
+- when you resize the browser, the svg resizes natively
+- use modernizr.js to detect whether the client's browser actually supports svgs
+- if not, then replace the .svg with the .png version of it
+    => this is how you handle situations where svgs are not supported
+    => if (!Modernizr.svg) {
+          $("img.logo").attr("src", "pete.png");
+       }
+- you can actually copy/paste the <svg>...</svg> part from the .svg file and paste it into the .html file:
+    => then you can inspect it, etc
+    => note how the higher layers are towards the bottom (so they paint over the lower layers)
+    => note the <g id="layerName">: you can add CSS to style this!
+        svg #poopy:hover {
+            fill: red;
+        }
+        #puddle:hover {
+            filter: url(#picFilter);
+        }
+    => you can target different areas on the SVG (simply by using layer IDs and CSS) and give them different behavior
+        * this is very powerful
+    => you must use SVG properties, instead of CSS properties (because this is a graphic language)
+    => google 'SVG CSS properties' for a full list, eg:
+        * http://www.opera.com/docs/specs/presto25/svg/cssproperties/
+- SVGs are the lingua franca of animations
+- note you can also create the .svg using DOM manipulation:
+    => see for details: http://tutorials.jenkov.com/svg/scripting.html
+- couple of years ago everybody was creating custom fonts, today everybody is doing SVGs
+
+
+5. Grunticon & Grumpicon
+- Grunticon: creates .png-s for us via a grunt task
+- Grumpicon: convert your .svg to .png online (drag & drop .svg, you get a .zip of goodies)
+- npm install grunt-grunticon --save-dev
+    grunticon: { //convert SVGs into PNGs
+        myIcons: {
+            files: [{
+                expand: true,
+                cwd: 'svg_icons/compressed',
+                src: ['*.svg', '*.png'],
+                dest: 'css/icons'
+            }],
+            options: {
+                loadersnippet: "grunticon.loader.js",
+            }
+        }
+    }
+
+
+6. SVGMin
+- really simple SVG minimization grunt task
+- it's just like HTML or JS minification: it minimizes the SVG xml
+- npm install grunt-svgmin --save-dev
+    svgmin: { //minimize SVG files
+        options: {
+            plugins: [
+                { removeViewBox: false },
+                { removeUselessStrokeAndFill: false }
+            ]
+        },
+        dist: {
+            expand: true,
+            cwd: 'svg_icons/raw',
+            src: ['*.svg'],
+            dest: 'svg_icons/compressed',
+            ext: '.colors-light-danger-success.svg'
+        }
+    }
+
+
+7. Tips
+- monotype.com: bit font library (used by Barclays as well)
+- SVG creation:
+    => Ai: high-end, industry standard, expensive  (http://www.adobe.com/products/illustrator.html)
+    => Sketch: cheaper, very solid tool            (http://bohemiancoding.com/sketch/)
+    => Inkscape: totally free                      (https://inkscape.org/en/)
+- npm scripts: tells you what you can add into the "scripts" area of package.json
+    => https://docs.npmjs.com/misc/scripts
+- minimal .gitignore for a project:
+    .DS_Store
+    .svn
+    node_modules/
+    .sass-cache
+- you can create constants in Angular:
+    => app.constant('FIREBASE_URL', 'htps://vizapp.firebaseio.com');
+    => then use it in a controller: 
+        app.controller('graphController', function($scope, $firebaseArray, FIREBASE_URL) {
+
+        var ref = new Firebase(FIREBASE_URL + '/data');
+        $scope.graphData = $firebaseArray(ref);
+- Firebase offers hosting:
+    => you can host your web project there
+    => it assumes you're using firebase data for it
+    => see hosting guides for setting it up
