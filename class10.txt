@@ -91,6 +91,7 @@ files: mean-session10-svg/  &  mean-session10/
 
 5. Grunticon & Grumpicon
 - Grunticon: creates .png-s for us via a grunt task
+    => also creates .css files that we can just add & use class names for the svg images
 - Grumpicon: convert your .svg to .png online (drag & drop .svg, you get a .zip of goodies)
 - npm install grunt-grunticon --save-dev
     grunticon: { //convert SVGs into PNGs

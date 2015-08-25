@@ -1,0 +1,130 @@
+CLASS #11
+
+files: mean-session11
+
+1. Intro
+- topics:
+    => SVG icons
+    => Firebase authentication
+    => Angular services
+
+
+2. SVG icons
+- after running grunticon & svgMin, you get inline (.css) images that the device owns
+    => no need to download it from any server
+- this is how you put an icon into a link:
+    .comp:before {
+        content: '';
+        background-image: url('../svgicons/compressed/graph.comp.svg');
+        background-size: contain;
+        background-repeat: no-repeat;
+        width: 20px;
+        height: 16px;
+        display: inline-block;
+        opacity: 0.5;
+    }
+
+    <a class="icon-graph comp" ng-href="#/graph">graph</a>
+- https://css-tricks.com/inline-svg-grunticon-fallback/
+
+
+3. Firebase Login & Authentication
+- on firebase website:
+    => Enable Email & Password Authentication: enables basic authentication
+    => you can add basic users (email/password) to validate against
+    => you can authenticate & validate against these users now
+- add $firebaseAuth service to your controller:
+    graphApp.controller("registration", function($scope, $location, FIREBASE_URL, $firebaseAuth) {
+        var ref = new Firebase (FIREBASE_URL);
+        var auth = $firebaseAuth(ref);
+
+        $scope.login = function() {
+            auth.$authWithPassword({
+                email: $scope.user.email,
+                password: $scope.user.password
+            }).then(function(user) {
+                $location.path("/graph");
+            }).catch(function(error) {
+                $scope.message = error.message;
+            });
+        }
+- gives pretty valid {{ error }} to display on register.html:
+    => invalid email, or specified user does not exist, etc
+
+
+4. Singleton
+- your controller's $scope is a child of Angular's root scope
+- you get a different child (different scope) for each controller
+    => scope is NOT a Singleton in Angular
+- however, everything else IS Singleton:
+    => this is how Angular ensures you have the same copy of things
+    => eg: $log is Singular
+- thus, services are also Singletons in Angular
+
+
+5. Angular services
+- mean-session11/_review-files/2b-creating-a-service/
+- you can use myApp.service() or myApp.factory() to create a new service
+- myApp.service() creates a JS object and doesn't need to return anything:
+    myApp.service('nameService', function() {
+        var self = this;
+        this.name = 'John Doe';
+
+        this.namelength = function() {
+            return self.name.length;
+        };        
+    });
+- myApp.factory() creates a factory and needs to return something:
+    myApp.factory('Authentication', function($firebase, $firebaseAuth, FIREBASE_URL) {
+        var ref = new Firebase(FIREBASE_URL);
+        var auth = $firebaseAuth(ref);
+        
+        var myObject = {
+            login: function(user) {
+                return auth.$authWithPassword({     <== Firebase authentication via $authWithPassword()
+                    email: user.email,
+                    password: user.password
+                });
+            },
+            register: function(user) {
+                return auth.$createUser({           <== Firebase user creation via $createUser()
+                    email: user.email,
+                    password: user.password
+                });
+            }          
+        };
+        
+        return myObject;
+    });
+
+    $scope.login = function() {
+        Authentication.login($scope.user)
+            .then(function(user) { ... });
+- you can also do something after you've logged in or registered a new user inside the factory:
+    register: function(user) {
+        return auth.$createUser( {
+            email: user.email,
+            password: user.password
+        }).then(function(authData) {
+            ...
+        });
+- see mean.pdf page 93
+
+
+6. Tips
+- $log: Angular service for logging, just a shortcut for console.log():
+    => $log.main = 'property from main';
+       $log.log($log);
+
+       $log.second = 'my second log';   <== attaches a second property to $log
+- watching for a variable changing and passing the updated value on:
+    => $scope.$watch('name', function() {
+          nameService.name = $scope.name;
+       });
+- minification proof injections:
+    => you can kinda double all the injections into an array
+    => myApp.controller('mainController', ['$scope', '$log', 'nameService',
+                                           function($scope, $log, nameService) { ... }]);
+- firebase CLI:
+    => allows you to deploy/list/remove firebase apps into MYAPP.firebaseapp.com
+    => sudo npm install -g firebase-tools

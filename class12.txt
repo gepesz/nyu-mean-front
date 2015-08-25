@@ -1,0 +1,83 @@
+CLASS #12
+
+files: mean-session12
+
+1. Intro
+- ppl don't read on the web, they scan
+    => scanability of a page / text is crucial
+    => after 52 characters, you increase the line height
+    => the hardest for ppl is to find the beginning of the next line
+    => this is due to scanning
+- by default, line height is 1.2 (120%)
+    => it's a good idea to increase it to at least 1.4em (or even 1.6em)
+- newspapers have very narrow columns to allow ppl to scan thru lines quickly
+
+
+2. Firebase auth
+- auth.$auth(): login
+- auth.$unauth(): logout
+- auth.$createUser(): create new user
+- auth.$onauth(): what to do on login (on $auth()):
+    auth.$onAuth(function(authData) {
+        if ( authData !== null ) { ... }
+    }
+
+
+3. Filepicker
+- https://www.filepicker.com/
+- this is where you would upload images into
+- you create a project, you get an API key
+- how to use it:
+    => on index.html:
+        <script type="text/javascript" src="//api.filepicker.io/v1/filepicker.js"></script>
+        <input type="file" id="file-upload" ng-click="addImage()">
+    => on app.js (controller):
+        var imageUpped;
+        $scope.addImage = function( new_image ) {  <== this routine uploads a file into FilePicker
+            filepicker.setKey("AgTJpb5i3RlKpbtqVuZSAz");
+            filepicker.pick(
+            {
+                 mimetypes: ['image/*', 'text/plain'],
+                 container: 'window',
+                 services:['COMPUTER'],
+             },
+             function(Blob) {
+                console.log(JSON.stringify(Blob));
+                imageUpped = Blob.url;   <== this is the URL where the image is uploaded to
+             },
+             function(FPError) {
+                console.log(FPError.toString());
+             }
+        )};
+
+        pushRef.push({  <== this is where we upload into FireBase (using the freshly generated FilePicker image URL)
+            name: new_portfolio.name,
+            creationdate: Firebase.ServerValue.TIMESTAMP,
+            date: new_portfolio.date,
+            title: new_portfolio.title,
+            description: new_portfolio.description,
+            imageurl: imageUpped
+        });
+- https://www.filepicker.com/documentation/file_ingestion/javascript_api/pick
+
+
+4. Tips
+- typeset.js:
+    => pre-processor for HTML, which prettifies the page & looks a lot more polished
+    => npm install typeset
+    => https://blot.im/typeset/
+- ppl judge websites on:
+    => speed  (so you optimize the hell out of everything)
+    => design (look & feel)
+- ionic framework:
+    => for creating apps
+- $scope.$apply():
+    => you don't need this usually
+    => only need this if you are outside of Angular's regular JS loops
+    => http://jimhoskins.com/2012/12/17/angularjs-and-apply.html
+- usual steps after git clone:
+    => npm install (to install grunt packages)
+    => grunt (to build the tasks)
+    => npm start (to start the web server)
+- final project:
+    => have a detailed writeup page
