@@ -1,0 +1,116 @@
+CLASS #13
+
+files: mean-session13
+
+1. Intro
+- topics:
+    => server side node applications (express, jade, nodemailer)
+    => deployment (heroku)
+
+
+2. simpleServer
+- mean-session13/2-simpleServer: example of a simple node server.js
+- barebone, simple node boilerplate web application using node
+- this one doesn't use Express
+
+
+3. Express
+- mean-session13/3-ExpressJade Template Setup
+- 90% of node applications use Express
+- it's the bootstrap of web frameworks
+- you use Express with Jade: ppl don't write html today but rather view pages
+- why use a templating engine?
+    => less typing (less < > to deal with)
+    => machine is doing the translation, so less likely mistakes
+- Jade uses indentation to identify nesting:
+    => you can use 3 or 4 spaces as long as you're consistent
+    => use the 'Spaces: 4' in Sublime to configure your spacing amount
+    => you can use variables 2 ways on a Jade view:
+        h1 =title               <== using =VARNAME
+        p Welcome to #{title}   <== using #{VARNAME}
+- compare:
+    => _starter_template_html_/layout.html
+    => _starter_template_jade/layout.jade
+    => additional classes are just tagged onto the element: element.class1.class2.class3...
+    => attributes are added via bracket: element(attr1=value1, attr2=value2, ...)
+- after install express & express-generator (npm install -g express-generator):
+    =>  express express_website: creates the 'express_website' app & directory structure
+    => cd express_website && npm install
+    => npm start (starts node ./bin/www on the backend)
+
+
+4. Advanced Express
+- mean-session13/4-express_website
+- localhost:3000
+- much more refined pages in there
+
+
+5. Nodemailer
+- mean-session13/5-nodemailer/routes/contact.js:
+    => fully working send email via nodemailer
+    router.post('/send', function(req, res, next) {
+        
+        // create Reusable Transporter
+        var transporter = nodemailer.createTransport({
+            service: 'Gmail',
+            auth: {
+                user: 'daniel.deverell@gmail.com',
+                pass: 'XXXXXXXXXXXXX'
+            }
+        });
+
+        // Email Setup
+        var mailOptions = {
+            from: 'Daniel Deverell <daniel.deverell@gmail.com>',
+            to: 'daniel.deverell@nyu.edu',
+            subject: 'Website Submission',
+            // Plain Text Version
+            text: 'You have a submission with the following details... Name: '+req.body.name +'Email: '+req.body.email +'Message: '+req.body.message,
+            // HTML Version
+            html: '<p>You got a website submission with the following details...</p><ul><li>Name: <b>'+req.body.name+'</b></li><li>Email: <b>'+req.body.email+'</b></li><li>Message: <b>'+req.body.message+'</b></li></ul>'
+        };
+
+        // Send
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+                res.redirect('/');
+            }else{
+                console.log('Message sent: ' + info.response);
+                res.redirect('/');
+            }
+        });
+    });
+- so instead of using php, just hunt down within node what you want and use that
+
+
+6. Heroku
+- install CLI for OS X: https://toolbelt.heroku.com/
+- now you have heroku on the Terminal
+- steps:
+    => heroku login:  enter email & pwd to login
+    => cd app_folder
+    => heroku create: create a new app on heroku website
+        Creating mighty-waters-4035... done, stack is cedar-14
+        https://mighty-waters-4035.herokuapp.com/ | https://git.heroku.com/mighty-waters-4035.git
+        Git remote heroku added
+    => git push heroku master: deploy the app
+    => heroku ps:scale web=1: starts up the app (and keeps it free)
+    => heroku open: opens up the website in a web browser tab
+    => heroku apps:rename newname: rename your app from the generated one to newname
+        * newname.herokuapp.com is your new URL
+- https://devcenter.heroku.com/articles/getting-started-with-nodejs
+
+
+7. Tips
+- html2jade: http://html2jade.org/
+    => html to jade online converter
+    => you can install this directly into Sublime 2 as an add on package:
+        * Command + Shift + P ==> Install Package ==> HTML2Jade
+- nodemailer: http://adilapapaya.com/docs/nodemailer/
+    => module to send emails with Node.js
+- wufoo: wufoo.com
+    => create (outsource) your forms here and then just use their final product
+- one of the reasons ppl deploy to heroku or similar places is to handle scaling:
+    => once cnn or any news reporter finds you, you must scale
+    => story of our times: article written on something, then the website goes down
