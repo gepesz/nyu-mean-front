@@ -1,0 +1,10 @@
+CLASS #14
+
+1. Jekyll: turn static text into a webpage - https://jekyllrb.com/
+2. Jon doesn't like Jekyll - https://www.youtube.com/watch?v=u22CLlw4_hg
+3. DevTips: great frontend youtube resource - https://www.youtube.com/channel/UCyIe-61Y8C4_o-zZCtO4ETQ
+4. DevTips flexbox: the next css? - https://www.youtube.com/watch?v=G7EIAgfkhmg
+5. Highcharts: classic charts in JavaScript for a website - http://www.highcharts.com/
+6. D3.js: Advanced data visualization framework - http://d3js.org/
+7. Skeleton framework: mini bootstrap - http://getskeleton.com/
+8. Quarts composer: Facebook mobile app ships in this - https://en.wikipedia.org/wiki/Quartz_Composer
