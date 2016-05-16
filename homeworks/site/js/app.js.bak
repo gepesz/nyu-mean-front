@@ -1,0 +1,31 @@
+/* globals angular */
+var pirateApp = angular.module('pirateApp', []).controller('pirateController', pirateController);
+
+function pirateController() {
+    this.portfolios = [
+        {name: 'vessel1309',    title: 'Call of Booty',             date: '7 Nov 2013', description: 'Arrrgh mateys! This be the finest vessel sailing these seas that yer eyes ever laid sight on. Arrrgh.',                        imageurl: 'drunkenPirate_thumb3.png', imagealt: 'Pirate Ship' },
+        {name: 'innocents1404', title: 'The Sack of the Innocents', date: '7 Nov 2013', description: 'This be a detail of the sacking of the innocents where I played an important role as business analyst and in implementation.', imageurl: 'drunkenPirate_thumb2.png', imagealt: 'Sack of the Innocents' },
+        {name: 'firstmate1210', title: 'Pipe and First Mate',       date: '7 Nov 2013', description: 'After a hard day of lootin\' and shootin\' I like to relax with my best mates and tally up the days booty.',                   imageurl: 'drunkenPirate_thumb1.png', imagealt: 'Pipe and Mate' }
+    ];
+
+    this.add_portfolio_error = "";
+    this.addPortfolio = function (new_portfolio) {
+        console.log("Inside addPortfolio()");
+        
+        // if new_portfolio is not defined
+        if ( typeof(new_portfolio) == "undefined" ) {
+            // then add an error message to $scope and exit
+            this.add_portfolio_error = "The form is not properly filled out";
+            return false;
+        };
+        
+        if ( !new_portfolio.title ) {
+            this.add_portfolio_error = "Please provide a title.";
+        } else if ( !new_portfolio.date || new_portfolio.date.length <10 ) {
+            this.add_portfolio_error = "Please provide a date in yyyy/mm/dd format.";
+        } else {
+            this.portfolios.push(new_portfolio);
+            new_portfolio = {};
+        }
+    }
+}

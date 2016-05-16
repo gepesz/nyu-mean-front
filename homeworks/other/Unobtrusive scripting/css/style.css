@@ -1,0 +1,8 @@
+body { color:#666; background-color:#ccc; margin:1em 0; }
+#wrapper { width:740px; margin:0 auto; }
+#head h1 { color:#333; }
+#mainNav a { color: #c60; font-weight:bold; text-decoration:none; }
+#mainNav ul { padding:0; list-style:none; }
+#mainNav li { float:left; padding:1em; }
+#mainNav li a img { border:0; }
+#mainNav li:first-child { padding-left:0; }
